@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, FormControl, Input, InputLabel} from '@material-ui/core';
 import './App.css';
+import Message from "./Message";
 
 function App() {
   const [input, setInput] = useState('');
-  const [messages, setMessage] = useState(['hello', 'hi', 'wats up'])
+  const [messages, setMessage] = useState([
+      {username: 'rock', text: 'hey' },
+      {username: 'will', text: 'hi' }
+      ])
+  const [username, setUserName] = useState('');
 
-  console.log('input', input);
-  console.log('mes', messages);
+  useEffect(()=> {
+    setUserName(prompt('Enter username'))
+  }, [])
 
   const sentMessage = (event) =>{
     //all the logic to send messages
     event.preventDefault();
-    setMessage([...messages, input])
+    setMessage([...messages, {username: username, text: input}])
     setInput('');
   }
-
+  console.log('input', input);
+  console.log('mes', messages);
   return (
     <div className="App">
-
       <h1>Hello Facebook Messenger</h1>
-
+      <h2>Welcome {username}</h2>
       <form>
         <FormControl>
           <InputLabel>Enter message</InputLabel>
@@ -30,8 +36,8 @@ function App() {
       </form>
 
       {
-        messages.map(message=> (
-            <p>{message}</p>
+        messages.map(message => (
+             <Message username={message.username} text={message.text} />
         ))
       }
     </div>
