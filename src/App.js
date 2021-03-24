@@ -21,7 +21,6 @@ function App() {
     setMessage([...messages, {username: username, text: input}])
     setInput('');
   }
-  console.log('input', input);
   console.log('mes', messages);
   return (
     <div className="App">
@@ -31,13 +30,19 @@ function App() {
         <FormControl>
           <InputLabel>Enter message</InputLabel>
           <Input value={input} onChange={event => setInput(event.target.value)}/>
-          <Button disabled={!input} variant='contained' color='primary' type='submit' onClick={sentMessage}>Send message</Button>
+          <Button disabled={!input}
+                  variant='contained'
+                  color='primary'
+                  type='submit'
+                  onClick={sentMessage}>
+              Send message
+          </Button>
         </FormControl>
       </form>
 
       {
         messages.map(message => (
-             <Message username={message.username} text={message.text} />
+             <Message username={username} message={message} />
         ))
       }
     </div>
