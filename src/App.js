@@ -2,14 +2,19 @@ import React, {useEffect, useState} from 'react';
 import {Button, FormControl, Input, InputLabel} from '@material-ui/core';
 import './App.css';
 import Message from "./Message";
+import db from "./firebase";
+import firebase from "firebase";
 
 function App() {
   const [input, setInput] = useState('');
-  const [messages, setMessage] = useState([
-      {username: 'rock', text: 'hey' },
-      {username: 'will', text: 'hi' }
-      ])
+  const [messages, setMessage] = useState([])
   const [username, setUserName] = useState('');
+
+  useEffect(() => {
+      db.collection('messages').onSnapshot(snapshot => {
+          setMessage(snapshot.docs.map(doc => doc.data()))
+      });
+  }, [] )
 
   useEffect(()=> {
     setUserName(prompt('Enter username'))
@@ -18,10 +23,17 @@ function App() {
   const sentMessage = (event) =>{
     //all the logic to send messages
     event.preventDefault();
-    setMessage([...messages, {username: username, text: input}])
+    db.collection('messages').add({
+        message: input,
+        username: username,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+/*    setMessage([
+        ...messages, {username: username, text: input}
+        ])*/
     setInput('');
   }
-  console.log('mes', messages);
+
   return (
     <div className="App">
       <h1>Hello Facebook Messenger</h1>
