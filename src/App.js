@@ -5,6 +5,9 @@ import Message from "./Message";
 import db from "./firebase";
 import firebase from "firebase";
 import FlipMove from "react-flip-move";
+import SendIcon from '@material-ui/icons/Send';
+import { IconButton } from "@material-ui/core";
+
 function App() {
   const [input, setInput] = useState('');
   const [messages, setMessage] = useState([])
@@ -38,19 +41,22 @@ function App() {
 
   return (
     <div className="App">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Facebook_Messenger_logo_2018.svg/100px-Facebook_Messenger_logo_2018.svg.png" alt=""/>
       <h1>Hello Facebook Messenger</h1>
       <h2>Welcome {username}</h2>
-      <form>
-        <FormControl>
-          <InputLabel>Enter message</InputLabel>
-          <Input value={input} onChange={event => setInput(event.target.value)}/>
-          <Button disabled={!input}
+
+      <form className='app__form'>
+        <FormControl className='app__formControl'>
+          <Input className='app__input' placeholder='Enter messages ...' value={input} onChange={event => setInput(event.target.value)}/>
+
+          <IconButton className='app__iconButton'
+                      disabled={!input}
                   variant='contained'
                   color='primary'
                   type='submit'
                   onClick={sentMessage}>
-              Send message
-          </Button>
+              <SendIcon />
+          </IconButton>
         </FormControl>
       </form>
 
@@ -66,4 +72,3 @@ function App() {
 }
 
 export default App;
-//npm install -g firebase-tools, firebase login, firebase init
